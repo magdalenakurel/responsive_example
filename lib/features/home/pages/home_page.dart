@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_example/core/responsive_layout.dart';
 
 import 'widgets/extra_panel.dart';
 import 'widgets/main_content.dart';
@@ -11,11 +12,66 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const ResponsiveLayout(
+        ultrawide: _UltraWideHomePage(),
+        wide: _WideHomePage(),
+        narrow: _NarrowHomePage());
+  }
+}
+
+class _UltraWideHomePage extends StatelessWidget {
+  const _UltraWideHomePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Row(
+      body: const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
+          SizedBox(
+            width: 300,
+            child: NavigationPanel(),
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: 900,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: MainContent(),
+                    ),
+                    Expanded(
+                      child: ExtraPanel(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WideHomePage extends StatelessWidget {
+  const _WideHomePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           SizedBox(
             width: 200,
             child: NavigationPanel(),
@@ -26,6 +82,26 @@ class HomePage extends StatelessWidget {
           Expanded(
             child: ExtraPanel(),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NarrowHomePage extends StatelessWidget {
+  const _NarrowHomePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      drawer: const Drawer(child: NavigationPanel()),
+      body: ListView(
+        children: const [
+          MainContent(),
+          ExtraPanel(),
         ],
       ),
     );
